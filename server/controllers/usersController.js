@@ -53,44 +53,4 @@ module.exports = function (app) {
 
     });
 
-    app.post('/api/users/login', function (req, res) {
-        const {email, password} = req.body;
-        if (!email || !password){
-            res.status(400).send("one of the parameters is missing");
-            return;
-        }
-        var hashedPassword = bcrypt.hashSync(req.body.password);
-        Users.findOne({
-            email: req.body.email.toLowerCase()
-        }, (err, user) => {
-            console.log(user);
-            if (err) throw err;
-            if (!user) {
-                res.status(200).send(undefined);
-            } else {
-                bcrypt.compare(req.body.password, user.password, ((err, result) => {
-                    if (result === true) {
-                        const payload = {
-                            _id: user._id,
-                            isAdmin: user.isAdmin
-                        };
-                        var token = jwt.sign(payload, app.get('superSecret'), {});
-                        let userObj = {
-                            token: token,
-                            email: user.email,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            _id: user._id,
-                        };
-
-
-                    } else {
-                        res.status(200).send(undefined);
-                    }
-                }));
-            }
-
-        });
-    });
-
 }
