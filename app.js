@@ -1,26 +1,36 @@
-var express = require('express');
-var app = express();
-var port = process.env.port || 2000;
-var config = require('./server/config')
-var mongoose = require('mongoose');
-var cors = require('cors')
-var usersController = require('./server/controllers/usersController');
-var authMiddleware = require('./server/middlewares/authMiddleware');
+const app = module.exports = require('express')();
+const bodyParser = require('body-parser');
+const port = process.env.port || 2000;
+const config = require('./server/config')
+const dbConfig = require('./server/config/dbConfig');
+const cors = require('cors')
 
+// const authMiddleware = require('./server/middlewares/authMiddleware');
+dbConfig(app);
 //setup the secret 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(cors())
 app.set('superSecret', config.getSecret())
 
-//Init connection to the database
-mongoose.connect(config.getDbConnectionString(), { useMongoClient: true });
-//import all of the controllers
-usersController(app);
+
+app.use(require('./server/controllers/routes'));
+
 //send the default response
-app.get('*', function(request, response) {
+app.get('/', function(request, response) {
   response.send("Web App");
 });
+/// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
 //start the server
 let server = require('http').Server(app);
-server.listen(process.env.PORT || 8080, function() {
+server.listen(port, function() {
 console.log("listening in port " + port)
 });
