@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
     })
 });
 
-router.post('/getAll', (req, res) => {
+router.get('/getAll', (req, res) => {
     Recipes.find({}, (err, recipes) => {
         if (err || !recipes) {
             return res.status(400).send("error rerieving recipes");
