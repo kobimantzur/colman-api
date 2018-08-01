@@ -9,8 +9,39 @@ var appRoot = require('app-root-path');
 
     router.post('/login', (req, res) => {
         const {email, password} = req.body;
-        
+        if (!email || !password){
+            return res.status(400).send("missing parameters");
+        }
+        const hashedPassword = bcrypt.hashSync(password);
+        console.log(hashedPassword)
+        Users.findOne({
+            email,
+        }, (err, user) => {
+            if (!user){
+                return res.status(400).send("Invalid email or password");
+            }
+            bcrypt.compare(password, user.password, (err, passwordCompareResult) => {
+                console.log(err)
+                if (!passwordCompareResult) {
+                    //Since we don't want to tell the client which param was
+                    //invalid(email or password) we give him the same error
+                    return res.status(400).send("Invalid email or password");
+                }
+                const payload = {
+                    userId: user._id,
+                }
+                const token = jwt.sign(payload, app.get('superSecret'), {});
+                const responseObject = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    token,
+                }
+                return res.status(200).send(responseObject);
+            });
+        });
     });
+
 
 
     /**
@@ -28,7 +59,8 @@ var appRoot = require('app-root-path');
             return;
         }
         //hash the password the user entered using bcrypt
-        var hashedPassword = bcrypt.hashSync(req.body.password);
+        const hashedPassword = bcrypt.hashSync(password);
+        console.log(hashedPassword)
         //check that this email address is not in use
         Users.findOne({
             email: req.body.email
@@ -48,11 +80,10 @@ var appRoot = require('app-root-path');
                         res.status(400);
                     }
                     const payload = {
-                        _id: user._id,
-                        isAdmin: user.isAdmin
-                    };
+                        userId: user._id,
+                    }
                     // create a token - the user will have to use this token in the header of each request
-                    var token = jwt.sign(payload, app.get('superSecret'), {});
+                    const token = jwt.sign(payload, app.get('superSecret'), {});
                     let responseObj = {
                         userId: user._id,
                         firstName,
