@@ -1,9 +1,9 @@
 const app = module.exports = require('express')();
 const bodyParser = require('body-parser');
-const port = process.env.port || 2000;
 const config = require('./server/config')
 const dbConfig = require('./server/config/dbConfig');
 const cors = require('cors')
+const port = process.env.PORT || 2000;
 
 // const authMiddleware = require('./server/middlewares/authMiddleware');
 dbConfig(app);
@@ -32,6 +32,6 @@ app.use(function (req, res, next) {
 
 //start the express server
 let server = require('http').Server(app);
-server.listen(port, function () {
+server.listen(process.env.PORT || 2000, function () {
   console.log("listening in port " + port)
 });
