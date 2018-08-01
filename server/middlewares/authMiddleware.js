@@ -11,7 +11,7 @@ module.exports = function (app) {
     app.use(function (req, res, next) {
         if (!isAuthorizedUrl(req.originalUrl)) {
             //Needs to be authorized
-            var token = req.body.token || req.query.token || req.headers['x-access-token'];
+            const token = req.body.token || req.query.token || req.headers['x-access-token'];
             if (token) {
                 jwt.verify(token, app.get('superSecret'), ((err, decoded) => {
                     if (err) {
@@ -21,7 +21,7 @@ module.exports = function (app) {
                         });
                     } else {
                         req.decoded = decoded;
-                        var userId = decoded._id;
+                        const userId = decoded._id;
                         Users.findOne({
                             _id: userId
                         }).then(((user) => {
@@ -46,7 +46,7 @@ module.exports = function (app) {
             return true;
         }
         let restrictedControllers = [
-            'api/users', 
+            'api/users',
         ];
         for (let i = 0; i < restrictedControllers.length; i++) {
             if (url.toLowerCase().indexOf(restrictedControllers[i]) != -1) {

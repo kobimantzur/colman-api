@@ -7,5 +7,6 @@
 const router = require('express').Router();
 
 router.use('/auth', require('./authController'));
+router.use('/recipe', require('./recipesController'));
 
 module.exports = router;

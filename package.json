@@ -30,5 +30,8 @@
     "production": "node app.js",
     "api": "NODE_ENV=dev && nodemon app.js",
     "start": "NODE_ENV=production nodemon app.js"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.0"
   }
 }
