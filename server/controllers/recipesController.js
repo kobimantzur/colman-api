@@ -21,4 +21,13 @@ router.post('/add', (req, res) => {
     })
 });
 
+router.post('/getAll', (req, res) => {
+    Recipes.find({}, (err, recipes) => {
+        if (err || !recipes) {
+            return res.status(400).send("error rerieving recipes");
+        }
+        return res.status(200).send(recipes);
+    });
+});
+
 module.exports = router;
