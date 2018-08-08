@@ -30,6 +30,34 @@ router.get('/getAll', (req, res) => {
     });
 });
 
+router.get('/search', (req, res) => {
+    const { query } = req.query;
+    if (!query) {
+        return res.status(400).send("Missing search parameters");
+    }
+    Recipes.find({
+        $or: [
+            {
+                title: {
+                    $regex: query,
+                    $options: "$i"
+                }
+            },
+            {
+                description: {
+                    $regex: query,
+                    $options: "$i"
+                }
+            }
+        ]
+    }).sort({ dateCreated: -1 }).exec((err, recipes) => {
+        if (err || !recipes) {
+            return res.status(400).send("error rerieving recipes");
+        }
+        return res.status(200).send(recipes);
+    });
+});
+
 router.get('/getCategories', (req, res) => {
     Categories.find({}, (err, categories) => {
         if (err || !categories) {

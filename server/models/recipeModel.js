@@ -16,7 +16,6 @@ const recipeSchema = new Schema({
     },
     userId: {
         type: String,
-        unique: true,
     },
     comments: [{ type: Schema.ObjectId, ref: 'Comments' }],
     dateCreated: { type: Date, default: Date.now },
