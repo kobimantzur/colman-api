@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
  * a user post on it
  */
 const recipeSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true
     },
@@ -14,6 +14,10 @@ const recipeSchema = new Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+    },
+    ingredients: [{ type: Schema.ObjectId, ref: 'Ingredients' }],
     userId: {
         type: String,
     },

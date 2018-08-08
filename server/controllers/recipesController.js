@@ -3,13 +3,13 @@ const router = require('express').Router();
 const Categories = require('../models/categoryModel');
 
 router.post('/add', (req, res) => {
-    const { title, description } = req.body;
-    if (!title || !description) {
+    const { name, description } = req.body;
+    if (!name || !description) {
         return res.status("Missing parameters");
     }
 
     const newRecipe = Recipes({
-        title,
+        name,
         description,
     });
 
@@ -38,7 +38,7 @@ router.get('/search', (req, res) => {
     Recipes.find({
         $or: [
             {
-                title: {
+                name: {
                     $regex: query,
                     $options: "$i"
                 }
