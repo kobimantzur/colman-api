@@ -14,7 +14,7 @@ const recipeSchema = new Schema({
         type: String,
         required: true
     },
-    image: {
+    imagePath: {
         type: String,
     },
     ingredients: [{ type: Schema.ObjectId, ref: 'Ingredients' }],
