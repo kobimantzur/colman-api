@@ -23,6 +23,9 @@ const recipeSchema = new Schema({
     },
     comments: [{ type: Schema.ObjectId, ref: 'Comments' }],
     dateCreated: { type: Date, default: Date.now },
+    longitude: String,
+    latitude: String,
+    restaurantName: String,
 });
 
 const Recipes = mongoose.model('Recipes', recipeSchema);
