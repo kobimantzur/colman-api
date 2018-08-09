@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Categories = require('../models/categoryModel');
 
 router.post('/add', (req, res) => {
-    const { name, description } = req.body;
+    const { name, description, imagePath } = req.body;
     if (!name || !description) {
         return res.status("Missing parameters");
     }
@@ -11,6 +11,7 @@ router.post('/add', (req, res) => {
     const newRecipe = Recipes({
         name,
         description,
+        imagePath: imagePath || '',
     });
 
     newRecipe.save((err, recipeObj) => {
