@@ -22,6 +22,17 @@ router.post('/add', (req, res) => {
     })
 });
 
+router.get('/getRecipeById', (req, res) => {
+    const { recipeId } = req.query;
+    if (!recipeId) return res.status(400).send("missing params");
+    Recipes.find({ _id: recipeId }, (err, recipes) => {
+        if (err || !recipes) {
+            return res.status(400).send("error rerieving recipes");
+        }
+        return res.status(200).send(recipes[0]);
+    });
+});
+
 router.get('/getAll', (req, res) => {
     Recipes.find({}, (err, recipes) => {
         if (err || !recipes) {
