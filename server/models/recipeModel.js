@@ -8,16 +8,14 @@ const Schema = mongoose.Schema;
 const recipeSchema = new Schema({
     name: {
         type: String,
-        required: true
     },
     description: {
         type: String,
-        required: true
     },
     imagePath: {
         type: String,
     },
-    ingredients: [{ type: Schema.ObjectId, ref: 'Ingredients' }],
+    ingredients: [{ type: Schema.ObjectId, ref: 'Ingredients', default: [] }],
     userId: {
         type: String,
     },

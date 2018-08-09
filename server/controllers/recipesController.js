@@ -5,7 +5,7 @@ const Categories = require('../models/categoryModel');
 router.post('/add', (req, res) => {
     const { name, description, imagePath } = req.body;
     if (!name || !description) {
-        return res.status("Missing parameters");
+        return res.status(400).send("Missing parameters");
     }
 
     const newRecipe = Recipes({
@@ -16,7 +16,7 @@ router.post('/add', (req, res) => {
 
     newRecipe.save((err, recipeObj) => {
         if (err || !recipeObj) {
-            return res.status(400).send("Error creating a new recipe");
+            return res.status(400).send(err);
         }
         return res.status(200).send(recipeObj);
     })
