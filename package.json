@@ -24,7 +24,8 @@
     "mongoose": "^4.13.5",
     "mongoose-searchable": "^1.0.0",
     "object-assign": "4.1.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "node-svm": "^2.1.8"
   },
   "scripts": {
     "dev": "NODE_ENV=dev && webpack-dev-server --hot",
