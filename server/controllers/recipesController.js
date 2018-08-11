@@ -1,6 +1,7 @@
 const Recipes = require("../models/recipeModel");
 const router = require("express").Router();
 const Categories = require("../models/categoryModel");
+<<<<<<< 10d668ed08d3b343575badcf6205001b1c73a169
 const app = require('../../app');
 const socketHelper = require('../../socketHelper');
 router.post('/edit', (req, res) => {
@@ -35,6 +36,9 @@ router.post('/edit', (req, res) => {
     return res.status(200).send("success");
   })
 })
+=======
+const Users = require("../models/userModel");
+>>>>>>> Added update function
 
 router.post("/add", (req, res) => {
   const {
@@ -139,5 +143,46 @@ router.get("/getCategories", (req, res) => {
     return res.status(200).send(categories);
   });
 });
+
+
+// User like's Recipe
+router.post("/like", (req, res) => {
+  const {
+    email,
+    categoryId
+  } = req.body;
+  if (!email || !categoryId) {
+    return res.status(400).send("Missing parameters");
+  }
+
+  Users.find({
+    name: {
+      $regex: query,
+      $options: "$i"
+    }
+  })
+    .exec((err, user) => {
+      if (err || !user) {
+        return res.status(400).send("error rerieving user");
+      } else if (user.likedRecipes.length == 3) {
+        return res.status(400).send("Too many likes");
+      }
+      newUserLike = user.likedRecipes;
+      newUserLike.push(categoryId);
+      newUserLike.save(function (err) {
+        if (err) return res.status(400).send("Error updating user");
+      });
+    });
+
+
+
+  newRecipe.save((err, recipeObj) => {
+    if (err || !recipeObj) {
+      return res.status(400).send(err);
+    }
+    return res.status(200).send(recipeObj);
+  });
+});
+
 
 module.exports = router;
