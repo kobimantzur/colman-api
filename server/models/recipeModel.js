@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 /**
  * This schema defines how the recipe will look like in the database
@@ -6,25 +6,26 @@ const Schema = mongoose.Schema;
  * a user post on it
  */
 const recipeSchema = new Schema({
-    name: {
-        type: String,
-    },
-    description: {
-        type: String,
-    },
-    imagePath: {
-        type: String,
-    },
-    ingredients: [{ type: Schema.ObjectId, ref: 'Ingredients', default: [] }],
-    userId: {
-        type: String,
-    },
-    comments: [{ type: Schema.ObjectId, ref: 'Comments' }],
-    dateCreated: { type: Date, default: Date.now },
-    longitude: String,
-    latitude: String,
-    restaurantName: String,
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  imagePath: {
+    type: String
+  },
+  ingredients: [{ type: Schema.ObjectId, ref: "Ingredients", default: [] }],
+  userId: {
+    type: String
+  },
+  comments: [{ type: Schema.ObjectId, ref: "Comments" }],
+  dateCreated: { type: Date, default: Date.now },
+  longitude: String,
+  latitude: String,
+  address: String,
+  restaurantName: String
 });
 
-const Recipes = mongoose.model('Recipes', recipeSchema);
+const Recipes = mongoose.model("Recipes", recipeSchema);
 module.exports = Recipes;
