@@ -32,6 +32,17 @@ router.post("/add", (req, res) => {
   });
 });
 
+router.post("/delete", (req, res) => {
+  const { recipeId } = req.body;
+  if (!recipeId) return res.status(400).send("missing params");
+  Recipes.find({ _id: recipeId }).remove((err, recipes) => {
+    if (err || !recipes) {
+      return res.status(400).send("error rerieving recipes");
+    }
+    return res.status(200).send(recipes[0]);
+  });
+});
+
 router.get("/getRecipeById", (req, res) => {
   const { recipeId } = req.query;
   if (!recipeId) return res.status(400).send("missing params");
