@@ -6,26 +6,26 @@ const Schema = mongoose.Schema;
  * a user post on itt
  */
 const recipeSchema = new Schema({
-  name: {
-    type: String
-  },
-  description: {
-    type: String
-  },
-  imagePath: {
-    type: String
-  },
-  ingredients: [{ type: Schema.ObjectId, ref: "Ingredients", default: [] }],
-  userId: {
-    type: String
-  },
-  comments: [{ type: Schema.ObjectId, ref: "Comments" }],
-  dateCreated: { type: Date, default: Date.now },
-  longitude: String,
-  latitude: String,
-  address: String,
-  restaurantName: String,
-  categoryId: String
+    name: {
+        type: String
+    },
+    description: {
+        type: String
+    },
+    imagePath: {
+        type: String
+    },
+    ingredients: [{ type: Schema.ObjectId, ref: "Ingredients", default: [] }],
+    userId: {
+        type: String
+    },
+    comments: [{ type: Schema.ObjectId, ref: "Comments" }],
+    dateCreated: { type: Date, default: Date.now },
+    longitude: String,
+    latitude: String,
+    address: String,
+    restaurantName: String,
+    categoryId: String
 });
 
 const Recipes = mongoose.model("Recipes", recipeSchema);
