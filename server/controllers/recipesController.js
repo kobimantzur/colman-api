@@ -9,7 +9,8 @@ router.post("/add", (req, res) => {
     imagePath,
     latitude,
     longitude,
-    address
+    address,
+    categoryId
   } = req.body;
   if (!name || !description) {
     return res.status(400).send("Missing parameters");
@@ -21,7 +22,8 @@ router.post("/add", (req, res) => {
     imagePath: imagePath || "",
     latitude,
     longitude,
-    address
+    address,
+    categoryId
   });
 
   newRecipe.save((err, recipeObj) => {
