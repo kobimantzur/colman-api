@@ -171,7 +171,7 @@ router.post("/like", (req, res) => {
     .exec((err, user) => {
       if (err || !user || user.length == 0) {
         return res.status(400).send("error rerieving user");
-      } else if (user.likedCategories.length == 3) {
+      } else if (user.likedRecipes && user.likedRecipes.length == 3) {
         return res.status(400).send("Too many likes");
       }
       const currentUser = user[0];
