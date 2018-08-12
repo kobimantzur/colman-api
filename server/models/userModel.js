@@ -26,6 +26,8 @@ var userSchema = new Schema({
   reset_password_token: String,
   reset_password_expiration: Date,
   dateCreated: { type: Date, default: Date.now },
+  likedRecipes: [String],
+  predictedCategory: String,
 });
 
 var Users = mongoose.model('Users', userSchema);

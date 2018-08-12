@@ -25,7 +25,7 @@ const recipeSchema = new Schema({
   latitude: String,
   address: String,
   restaurantName: String,
-  categoryId: String
+  categoryId: { type: Schema.ObjectId, ref: "Categories" }
 });
 
 const Recipes = mongoose.model("Recipes", recipeSchema);
