@@ -8,6 +8,11 @@ router.post('/edit', (req, res) => {
     _id,
     name,
     description,
+    imagePath,
+    latitude,
+    longitude,
+    categoryId,
+    address
   } = req.body;
 
   if (!_id) {
@@ -20,6 +25,7 @@ router.post('/edit', (req, res) => {
     imagePath,
     latitude,
     longitude,
+    categoryId,
     address
   }, (err, result) => {
     if (err) {
