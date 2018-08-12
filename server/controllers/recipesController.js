@@ -2,6 +2,22 @@ const Recipes = require("../models/recipeModel");
 const router = require("express").Router();
 const Categories = require("../models/categoryModel");
 const app = require('../../app');
+
+router.get('/getGroupedCategories', (req, res) => {
+  const aggregatorOpts = [
+    {
+      $group: {
+        _id: "$categoryId",
+        count: { $sum: 1 }
+      }
+    }
+  ]
+
+  Recipes.aggregate(aggregatorOpts).exec((err, result) => {
+    return res.status(200).send(result);
+  })
+});
+
 router.post('/edit', (req, res) => {
   const {
     _id,
