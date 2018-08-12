@@ -2,6 +2,34 @@ const Recipes = require("../models/recipeModel");
 const router = require("express").Router();
 const Categories = require("../models/categoryModel");
 
+
+router.post('/edit', (req, res) => {
+  const {
+    _id,
+    name,
+    description,
+  } = req.body;
+
+  if (!_id) {
+    return res.status(400).send("missing params");
+  }
+
+  Recipes.findByIdAndUpdate(_id, {
+    name,
+    description,
+    imagePath,
+    latitude,
+    longitude,
+    address
+  }, (err, result) => {
+    if (err) {
+      return res.status(400).send(err);
+    }
+
+    return res.status(200).send("success");
+  })
+})
+
 router.post("/add", (req, res) => {
   const {
     name,
