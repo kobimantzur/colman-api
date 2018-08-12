@@ -1,6 +1,13 @@
+const Users = require(".userModel");
 var svm = require('node-svm');
 
 // TODO: Get user to predict's categories
+Users.find({}, (err, categories) => {
+    if (err || !categories) {
+        return res.status(400).send("error");
+    }
+    return res.status(200).send(categories);
+});
 
 // TODO: Preprocess features and create vector to predict
 vectorToPredict = [0, 0, 0];
