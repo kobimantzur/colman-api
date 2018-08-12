@@ -1,8 +1,8 @@
 const Recipes = require("../models/recipeModel");
 const router = require("express").Router();
 const Categories = require("../models/categoryModel");
-
-
+const app = require('../../app');
+const socketHelper = require('../../socketHelper');
 router.post('/edit', (req, res) => {
   const {
     _id,
@@ -64,6 +64,8 @@ router.post("/add", (req, res) => {
     if (err || !recipeObj) {
       return res.status(400).send(err);
     }
+    let socket = app.get('ioSocket')
+    socket.emit('recipeAdded')
     return res.status(200).send(recipeObj);
   });
 });
