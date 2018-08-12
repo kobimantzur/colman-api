@@ -154,5 +154,70 @@ router.get("/getCategories", (req, res) => {
     return res.status(200).send(categories);
   });
 });
+// User like's Recipe
+router.post("/like", (req, res) => {
+  const {
+    email,
+    categoryId
+  } = req.body;
+  if (!email || !categoryId) {
+    return res.status(400).send("Missing parameters");
+  }
+
+  Users.find({ email: email })
+    .exec((err, user) => {
+      if (err || !user || user.length == 0) {
+        return res.status(400).send("error rerieving user");
+      } else if (user.likedCategories.length == 3) {
+        return res.status(400).send("Too many likes");
+      }
+      const currentUser = user[0];
+      console.log(currentUser)
+      currentUser.likedCategories.push(categoryId)
+      currentUser.save((err) => {
+        if (err) return res.status(400).send("error saving user");
+        //like is saved, continue to SVM
+        vectorToPredict = [0, 0, 0];
+        // Pre-process features and create vector to predict
+        for (let category of categories) {
+          if (category == "5b6b069568ee0ce626c8f6dc") { // Italian
+            vectorToPredict[0] += 1;
+          }
+          else if (category == "5b6b078bc6ec62e67da5b5be") { // Israeli
+            vectorToPredict[1] += 1;
+          } else {
+            vectorToPredict[2] += 1;
+          }
+        }
+        // Load training set
+        var lineReader = require('readline').createInterface({
+          input: require('fs').createReadStream('../resources/svmTraining.txt')
+        });
+
+        var svmTraining = []
+        lineReader.on('line', function (line) {
+          values = line.split(',')
+          valuesY = values[3];
+          valuesXlist = [values[0], values[1], values[2]]
+          svmTraining = [valuesXlist, valuesY];
+        });
+        // Initialize a new predictor
+        var clf = new svm.CSVC();
+        clf.train(svmTraining).done(function () {
+          // Predict user's 'liked' kitchen based on 'liked' recipes
+          var prediction = clf.predictSync(vectorToPredict);
+          // TODO: Send prediction result to database
+          if (prediction == -1) {
+            Users.update({ predictedCategory: "5b6b069568ee0ce626c8f6dc" }); // Italian
+          } else if (prediction == 0) {
+            Users.update({ predictedCategory: "5b6b078bc6ec62e67da5b5be" }); // Israeli
+          } else {
+            Users.update({ predictedCategory: "5b6b06c21c1b56e63bc33619" }); // American
+          }
+        });
+      });
+    })
+
+});
 
 module.exports = router;
