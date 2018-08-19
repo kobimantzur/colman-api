@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cors())
+app.options('*', cors())
 app.set('superSecret', config.getSecret())
 
 //This use implements the controller routes, new controllers will be defined in /server/controllers/routes.js
