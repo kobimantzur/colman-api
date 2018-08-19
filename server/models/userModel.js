@@ -26,7 +26,7 @@ var userSchema = new Schema({
   reset_password_token: String,
   reset_password_expiration: Date,
   dateCreated: { type: Date, default: Date.now },
-  likedRecipes: [String],
+  likedCategories: [String],
   predictedCategory: String,
 });
 
