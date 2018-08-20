@@ -16,7 +16,20 @@ router.get('/getGroupedCategories', (req, res) => {
   ]
 
   Recipes.aggregate(aggregatorOpts).exec((err, result) => {
-    return res.status(200).send(result);
+    let modifiedResult = [];
+    Categories.find({}, (err, categories) => {
+      for (let i = 0; i < result.length; i++) {
+        for (let j = 0; j < categories.length; j++) {
+
+          if (categories[j]._id == result[i]._id) {
+            result[i] = { ...result[i], title: categories[j].title }
+            break;
+          }
+        }
+      }
+      return res.status(200).send(result);
+
+    });
   })
 });
 
