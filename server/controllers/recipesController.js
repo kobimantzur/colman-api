@@ -115,9 +115,9 @@ router.post("/getAll", (req, res) => {
       return res.status(400).send("error rerieving recipes");
     }
     const {
-      currentUser
+      email
     } = req.body;
-    email = JSON.parse(currentUser).email;
+    // email = JSON.parse(currentUser).email;
     if (!email) {
       return res.status(400).send("Missing parameters");
     }
