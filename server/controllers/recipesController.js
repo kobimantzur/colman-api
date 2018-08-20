@@ -139,8 +139,14 @@ router.post("/getAll", (req, res) => {
       if (err || !user || user.length == 0) {
         return res.status(400).send("error rerieving user");
       }
-      return res.status(200).send(recipes.sort(function (recipe) {
-        recipe.categoryId == currentUser.predictedCategory;
+      return res.status(200).send(recipes.sort(function (recipe_a, recipe_b) {
+        if (String(recipe_a.categoryId) == currentUser.predictedCategory) {
+          return -1;
+        } else if (String(recipe_b.categoryId) == currentUser.predictedCategory) {
+          return 1;
+        } else {
+          return 0;
+        }
       }));
     });
   });
